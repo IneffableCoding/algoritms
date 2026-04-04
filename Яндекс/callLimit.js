@@ -12,6 +12,8 @@ function callLimit(fn, limit, callback) {
   let count = 0;
 
   const wrap = (...args) => {
+    // (...args) — это rest-оператор (оператор остатка)
+    // Он собирает все переданные аргументы в массив с именем args.
     if (count < limit) {
       count += 1;
       fn(...args);
