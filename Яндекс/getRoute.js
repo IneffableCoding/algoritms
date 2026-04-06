@@ -33,6 +33,7 @@ function getRoute(tickets = [], start) {
 
   // Пока есть текущий город И существует билет из этого города
   while (currentCity && ticketMap[currentCity]) {
+    // Проверка if (currentCity) — это просто вопрос: "У нас есть какой-то город или ничего?
     // Берём билет для текущего города
     const ticket = ticketMap[currentCity];
 
