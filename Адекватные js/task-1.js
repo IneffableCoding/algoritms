@@ -21,6 +21,7 @@ const getPricy = (nights, date = new Date()) => {
   for (let i = 0; i < nights; i++) {
     // 3️⃣ Цикл по каждому дню
     const dayNum = curDate.getDay(); // 4️⃣ День недели (0 = вс, 6 = сб)
+    // getDay() — это метод объекта Date, который возвращает номер дня недели в виде числа от 0 до 6.
 
     // 5️⃣ Выходной? (суббота 6 или воскресенье 0)
     if (dayNum === 6 || dayNum === 0) {
