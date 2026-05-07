@@ -17,17 +17,20 @@ class MaxStack {
   }
 
   push(value) {
+    // положить элемент наверх
     this.stack.push(value);
     // Если maxStack пуст или новый элемент >= текущего максимума
     if (
       this.maxStack.length === 0 ||
       value >= this.maxStack[this.maxStack.length - 1]
+      // Новый элемент является новым максимумом (или равен текущему максимуму)?
     ) {
       this.maxStack.push(value);
     }
   }
 
   pop() {
+    // взять элемент сверху
     if (this.stack.length === 0) {
       throw new Error("Stack is empty");
     }
@@ -37,6 +40,7 @@ class MaxStack {
     if (popped === this.maxStack[this.maxStack.length - 1]) {
       this.maxStack.pop();
     }
+    // Удаляет последний элемент из стека максмумов и, если это был максимум, убирает его из истории максимумов
 
     return popped;
   }
