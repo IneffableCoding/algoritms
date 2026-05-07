@@ -15,22 +15,25 @@ const prices = {
 };
 
 const getPricy = (nights, date = new Date()) => {
-  let curDate = date;
-  let price = 0;
+  let curDate = date; // 1️⃣ Текущая дата (начинаем с даты заезда)
+  let price = 0; // 2️⃣ Общая стоимость (начинаем с 0)
 
-  for (i = 0; i < nights; i++) {
-    const dayNum = curDate.getDay();
+  for (let i = 0; i < nights; i++) {
+    // 3️⃣ Цикл по каждому дню
+    const dayNum = curDate.getDay(); // 4️⃣ День недели (0 = вс, 6 = сб)
 
+    // 5️⃣ Выходной? (суббота 6 или воскресенье 0)
     if (dayNum === 6 || dayNum === 0) {
-      price += prices.holiday;
+      price += prices.holiday; // 2200 руб
     } else {
-      price += prices.weekday;
+      price += prices.weekday; // 1500 руб
     }
 
+    // 6️⃣ Переходим к следующему дню
     curDate.setDate(curDate.getDate() + 1);
   }
 
-  return price;
+  return price; // 7️⃣ Возвращаем сумму
 };
 
 console.log(getPricy(7)); // 11900
