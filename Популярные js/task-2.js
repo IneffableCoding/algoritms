@@ -11,6 +11,7 @@ const memo = (fn) => {
 
   return function (...args) {
     const stringArgs = JSON.stringify(args);
+    // превращает массив аргументов в строку 
 
     if (cache.has(stringArgs)) {
       console.log("from cache");
