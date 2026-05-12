@@ -20,9 +20,11 @@ const groupByType = (arr) => {
 
   arr.forEach((item) => {
     const { type, weight } = item;
+    // Извлекает значения из объекта item и записывает их в переменные с теми же именами
 
     // === ПУНКТ 1 ===
     const { type: _, ...rest } = item;
+
     if (grouped[type]) {
       grouped[type].push(rest);
     } else {
