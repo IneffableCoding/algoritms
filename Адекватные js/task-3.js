@@ -37,9 +37,16 @@ const groupCountries = (data) => {
   data.forEach((item) => {
     const { age, name, country, id } = item;
     const itemWithoutId = { age, name, country };
+    // Создаёт новый объект без id
 
     if (result[country]) {
       result[country][id] = itemWithoutId;
+      // result["Russia"][3]
+      //     ↑          ↑
+      //   первый      второй
+      //   доступ      доступ
+      // Именно так и реализуется вложенная хеш-таблица — через два последовательных доступа
+      // Именно эта строка и создаёт структуру вложенной хеш-таблицы
     } else {
       result[country] = { [id]: itemWithoutId };
     }
