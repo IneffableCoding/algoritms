@@ -36,8 +36,9 @@ const groupCountries = (data) => {
 
   data.forEach((item) => {
     const { age, name, country, id } = item;
+    // это деструктуризация, которая создаёт переменные для дальнейшего использования
     const itemWithoutId = { age, name, country };
-    // Создаёт новый объект без id
+    // Создаёт новый объект без id, это именно создание объекта, не деструктуризация 
 
     if (result[country]) {
       result[country][id] = itemWithoutId;
