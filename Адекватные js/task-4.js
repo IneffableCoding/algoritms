@@ -13,76 +13,46 @@
 В emit проходим через forEach по функциям и вызываем их
  */
 
-// Объявляем класс EventEmitter (издатель событий)
+// Хранилище событий: { событие: [слушатели] }
 class EventEmitter {
-  // Свойство класса: объект для хранения событий и их слушателей
-  // Структура: { "имя_события": [функция1, функция2, ...] }
   events = {};
 
-  // Метод подписки на событие
-  // eventName - имя события (строка), listener - функция-обработчик
+  // Подписка
   on(eventName, listener) {
-    // Проверяем: существует ли уже массив слушателей для данного события
-    if (!this.events[eventName]) {
-      // Если не существует - создаём пустой массив
-      this.events[eventName] = [];
-    }
-
-    // Добавляем новую функцию-слушатель в массив
+    if (!this.events[eventName]) this.events[eventName] = [];
     this.events[eventName].push(listener);
   }
 
-  // Метод отписки от события
-  // eventName - имя события, listener - функция, которую нужно удалить
+  // Отписка
   off(eventName, listener) {
-    // Проверяем: существует ли такое событие
     if (this.events[eventName]) {
-      // Заменяем старый массив новым, отфильтрованным
-      // filter оставляет только те функции, которые НЕ равны удаляемой
       this.events[eventName] = this.events[eventName].filter(
-        // eventListener - текущая функция из массива на проверке
-        // сравниваем её с той, которую хотим удалить
-        (eventListener) => eventListener !== listener,
+        (fn) => fn !== listener,
       );
     }
-    // Если события нет - ничего не делаем (просто игнорируем)
   }
 
-  // Метод для вызова (эмита) события
-  // eventName - имя события, ...args - все переданные аргументы собираются в массив
+  // Вызов всех слушателей события
   emit(eventName, ...args) {
-    // Проверяем: есть ли слушатели у этого события
-    if (this.events[eventName]) {
-      // Проходим по каждому слушателю в массиве
-      this.events[eventName].forEach((listener) => {
-        // Вызываем функцию-слушатель, передавая ей все аргументы
-        // ...args разворачивает массив обратно в отдельные аргументы
-        listener(...args);
-      });
-    }
-    // Если слушателей нет - ничего не делаем
+    this.events[eventName]?.forEach((listener) => listener(...args));
   }
 }
 
-// ============ ПРИМЕР ИСПОЛЬЗОВАНИЯ ============
+// Пример
+const emitter = new EventEmitter();
 
-// Создаём экземпляр класса EventEmitter
-const myEventEmitter = new EventEmitter();
+const greet = (name) => console.log(`Hello, ${name}!`);
 
-// Объявляем функцию-слушатель, которая принимает имя и выводит приветствие
-const greetListener = (name) => {
-  console.log(`Hello, ${name}!`);
-};
+emitter.on("greet", greet);
+emitter.emit("greet", "Alice"); // Hello, Alice!
 
-// Подписываем слушатель на событие "greet"
-myEventEmitter.on("greet", greetListener);
+emitter.off("greet", greet);
+emitter.emit("greet", "Bob"); // (ничего)
 
-// Вызываем событие "greet" с аргументом "Alice"
-// Все подписанные функции получат этот аргумент
-myEventEmitter.emit("greet", "Alice"); // Output: Hello, Alice!
+/*
+on	-  Добавляет функцию в массив слушателей
 
-// Отписываем слушатель от события "greet"
-myEventEmitter.off("greet", greetListener);
+off	-  Удаляет функцию из массива (через filter)
 
-// Снова вызываем событие - слушателей больше нет, поэтому ничего не выводится
-myEventEmitter.emit("greet", "Bob"); // No output
+emit -  Вызывает все функции из массива с переданными аргументами
+*/
